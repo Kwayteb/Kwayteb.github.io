@@ -1,338 +1,536 @@
 <!DOCTYPE html>
-<html lang="id">
-
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jordan Lee — Software Engineer</title>
+<meta name="description" content="Personal site of Jordan Lee — software engineer writing about backend systems, small tools, and the occasional debugging story.">
+<meta name="theme-color" content="#0a0a0e">
+<script>
+  document.documentElement.setAttribute('data-theme', window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cmask id='m'%3E%3Crect width='32' height='32' fill='white'/%3E%3Ccircle cx='21' cy='10' r='9' fill='black'/%3E%3C/mask%3E%3Ccircle cx='15' cy='16' r='11' fill='%23c9a35f' mask='url(%23m)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens ---------- */
+  html {
+    color-scheme: dark;
+    --bg: #0a0a0e;
+    --bg-elevated: #131218;
+    --bg-elevated-hover: #1a1922;
+    --text: #ece9f0;
+    --text-muted: #948fa0;
+    --border: #221f2b;
+    --border-strong: #322e3d;
+    --accent: #c9a35f;
+    --accent-soft: rgba(201, 163, 95, 0.14);
+    --on-accent: #15121a;
+    --star: #cfc9e0;
+    --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sidebar-w: 272px;
+    --radius-m: 14px;
+    --transition: 200ms ease;
+  }
+  html[data-theme="light"] {
+    color-scheme: light;
+    --bg: #f6f4ef;
+    --bg-elevated: #ffffff;
+    --bg-elevated-hover: #fbf9f5;
+    --text: #201e26;
+    --text-muted: #6b6675;
+    --border: #e6e1d6;
+    --border-strong: #d8d1c2;
+    --accent: #8f6a2f;
+    --accent-soft: rgba(143, 106, 47, 0.10);
+    --on-accent: #fbf8f2;
+    --star: transparent;
+  }
 
-  <title>Free Borneo</title>
+  /* ---------- Reset ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  h1, h2, h3, p { margin: 0; }
+  ul { margin: 0; padding: 0; list-style: none; }
+  a { color: inherit; text-decoration: none; }
+  svg { display: block; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--transition), color var(--transition);
+  }
+  ::selection { background: var(--accent-soft); color: var(--text); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-  <style>
-    /* =========================
-       RESET
-       ========================= */
+  /* ---------- Skip link ---------- */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--accent);
+    color: var(--on-accent);
+    padding: .75rem 1rem;
+    z-index: 100;
+    border-radius: 0 0 8px 0;
+    font-family: var(--font-mono);
+    font-size: .85rem;
+  }
+  .skip-link:focus { left: 0; }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+  /* ---------- Layout ---------- */
+  .layout { display: flex; align-items: flex-start; }
+  .sidebar {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2.25rem 1.75rem;
+    border-right: 1px solid var(--border);
+  }
+  main { flex: 1; min-width: 0; padding: 0 clamp(1.5rem, 4vw, 3rem); }
+  .content-inner { max-width: 760px; margin: 0 auto; }
+
+  /* ---------- Sidebar ---------- */
+  .brand { display: flex; align-items: center; gap: .75rem; margin-bottom: 2.5rem; }
+  .moon-mark { width: 26px; height: 26px; color: var(--accent); flex-shrink: 0; }
+  .brand-name { font-family: var(--font-display); font-weight: 600; font-size: 1rem; }
+  .brand-tag { font-family: var(--font-mono); font-size: .72rem; color: var(--text-muted); margin-top: .15rem; }
+
+  .nav-list { margin-bottom: auto; }
+  .nav-list ul { display: flex; flex-direction: column; gap: .9rem; }
+  .nav-list a { font-size: .92rem; color: var(--text-muted); transition: color var(--transition); }
+  .nav-list a:hover { color: var(--text); }
+
+  .sidebar-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.75rem;
+    margin-top: 1.75rem;
+    border-top: 1px solid var(--border);
+  }
+  .socials { display: flex; gap: .85rem; }
+  .socials a { color: var(--text-muted); display: flex; transition: color var(--transition); }
+  .socials a:hover { color: var(--accent); }
+  .socials svg { width: 18px; height: 18px; }
+
+  .theme-toggle {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color var(--transition);
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+  .theme-toggle svg {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    transition: opacity var(--transition), transform var(--transition);
+  }
+  .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+  .icon-sun { opacity: 0; transform: rotate(-40deg) scale(.6); }
+  html[data-theme="light"] .icon-moon { opacity: 0; transform: rotate(40deg) scale(.6); }
+  html[data-theme="light"] .icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; overflow: hidden; padding: 5.5rem 0 3rem; }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .55;
+    transition: opacity var(--transition);
+    background-image:
+      radial-gradient(1.5px 1.5px at 6% 20%, var(--star), transparent),
+      radial-gradient(1px 1px at 16% 65%, var(--star), transparent),
+      radial-gradient(2px 2px at 26% 10%, var(--star), transparent),
+      radial-gradient(1px 1px at 38% 42%, var(--star), transparent),
+      radial-gradient(1.5px 1.5px at 50% 75%, var(--star), transparent),
+      radial-gradient(1px 1px at 60% 18%, var(--star), transparent),
+      radial-gradient(2px 2px at 70% 52%, var(--star), transparent),
+      radial-gradient(1px 1px at 82% 12%, var(--star), transparent),
+      radial-gradient(1.5px 1.5px at 90% 60%, var(--star), transparent),
+      radial-gradient(1px 1px at 96% 32%, var(--star), transparent);
+  }
+  html[data-theme="light"] .hero::before { opacity: 0; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--text-muted);
+    margin-bottom: .6rem;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.75rem, 4vw + 1.25rem, 4.25rem);
+    line-height: 1.04;
+    letter-spacing: -.02em;
+    position: relative;
+  }
+  .hero h1 .accent-dot { color: var(--accent); }
+  .hero-sub {
+    margin-top: 1.25rem;
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+    max-width: 52ch;
+    position: relative;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; position: relative; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: .8rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-family: var(--font-mono);
+    font-size: .85rem;
+    transition: transform var(--transition), border-color var(--transition), color var(--transition);
+  }
+  .btn-primary { background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-ghost { border-color: var(--border-strong); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Sections ---------- */
+  .section { padding-top: 4.5rem; border-top: 1px solid var(--border); }
+  .section-head { margin-bottom: 2rem; }
+  .section-head h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 1.2vw + 1.1rem, 2rem);
+    letter-spacing: -.01em;
+  }
+
+  /* ---------- Writing (post list) ---------- */
+  .post-item {
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+  }
+  .post-item:first-child { padding-top: 0; }
+  .post-item:last-child { border-bottom: none; }
+  .post-meta {
+    font-family: var(--font-mono);
+    font-size: .78rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  .post-item h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; }
+  .post-item h3 a {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0% 2px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size var(--transition);
+  }
+  .post-item h3 a:hover { background-size: 100% 2px; }
+  .post-item p { color: var(--text-muted); max-width: 60ch; }
+  .read-more { align-self: flex-start; font-family: var(--font-mono); font-size: .85rem; color: var(--accent); }
+  .read-more:hover { text-decoration: underline; }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-muted);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: .2rem .55rem;
+  }
+
+  /* ---------- Projects (card grid) ---------- */
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+  .project {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    transition: transform var(--transition), border-color var(--transition), background var(--transition);
+  }
+  .project:hover { transform: translateY(-3px); border-color: var(--border-strong); background: var(--bg-elevated-hover); }
+  .project h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
+  .project p { color: var(--text-muted); font-size: .92rem; flex: 1; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .project-links { display: flex; gap: 1rem; }
+  .project-links a { font-family: var(--font-mono); font-size: .8rem; color: var(--accent); border-bottom: 1px solid transparent; }
+  .project-links a:hover { border-color: currentColor; }
+
+  /* ---------- About ---------- */
+  .about p { max-width: 62ch; color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
+
+  /* ---------- Footer ---------- */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 4.5rem;
+    padding: 3rem 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: .8rem;
+    color: var(--text-muted);
+  }
+  .footer-socials { display: flex; gap: 1.25rem; }
+  .footer-socials a { color: var(--text-muted); transition: color var(--transition); }
+  .footer-socials a:hover { color: var(--accent); }
+  .footer-socials svg { width: 19px; height: 19px; }
+  .footer-note a { text-decoration: underline; text-underline-offset: 2px; }
+  .footer-note a:hover { color: var(--accent); }
+
+  /* ---------- Motion (respects reduced-motion) ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+    .hero .eyebrow, .hero h1, .hero-sub, .hero-actions {
+      animation: fadeUp .6s ease both;
     }
+    .hero h1 { animation-delay: .05s; }
+    .hero-sub { animation-delay: .1s; }
+    .hero-actions { animation-delay: .15s; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
 
-
-    /* =========================
-       BODY
-       ========================= */
-
-    html,
-    body {
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .layout { flex-direction: column; }
+    .sidebar {
+      position: static;
       width: 100%;
-      height: 100%;
-
-      overflow: hidden;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
     }
-
-    body {
-      background: #211c19;
-      color: #e8ddd3;
-
-      font-family: Georgia, serif;
-    }
-
-
-    /* =========================
-       COVER
-       ========================= */
-
-    .cover {
-      width: 100%;
-      height: 100vh;
-      height: 100svh;
-
-      min-height: 320px;
-
-      padding:
-        max(20px, env(safe-area-inset-top))
-        max(20px, 6vw)
-        max(20px, env(safe-area-inset-bottom));
-
-      display: flex;
-      flex-direction: column;
-
-      justify-content: center;
-      align-items: center;
-
-      text-align: center;
-
-      position: relative;
-
-      overflow: hidden;
-    }
-
-
-    /* =========================
-       LOGO
-       ========================= */
-
-    .logo {
-      font-size: clamp(0.65rem, 1.2vw, 0.9rem);
-
-      letter-spacing: clamp(2px, 0.5vw, 5px);
-
-      text-transform: uppercase;
-
-      color: #bda58f;
-
-      margin-bottom: clamp(18px, 5vh, 55px);
-    }
-
-
-    /* =========================
-       TITLE
-       ========================= */
-
-    h1 {
-      font-size: clamp(2.2rem, 7vw, 6rem);
-
-      line-height: 1.05;
-
-      font-weight: normal;
-
-      letter-spacing: clamp(-1.5px, -0.15vw, -3px);
-
-      max-width: 1000px;
-
-      margin-bottom: clamp(14px, 3vh, 28px);
-    }
-
-
-    /* =========================
-       DESCRIPTION
-       ========================= */
-
-    .description {
-      width: min(90%, 620px);
-
-      font-size: clamp(0.9rem, 1.5vw, 1.2rem);
-
-      line-height: 1.7;
-
-      color: #bfb2a8;
-
-      margin-bottom: clamp(20px, 4vh, 45px);
-    }
-
-
-    /* =========================
-       BUTTON
-       ========================= */
-
-    .button {
-      display: inline-block;
-
-      padding:
-        clamp(10px, 1.5vw, 16px)
-        clamp(20px, 3vw, 35px);
-
-      border: 1px solid #8e7765;
-
-      color: #e8ddd3;
-
-      text-decoration: none;
-
-      font-size: clamp(0.8rem, 1.2vw, 1rem);
-
-      transition:
-        background 0.3s ease,
-        color 0.3s ease,
-        transform 0.3s ease;
-    }
-
-
-    .button:hover {
-      background: #e8ddd3;
-
-      color: #211c19;
-
-      transform: translateY(-3px);
-    }
-
-
-    /* =========================
-       FOOTER
-       ========================= */
-
-    footer {
-      position: absolute;
-
-      bottom: max(15px, env(safe-area-inset-bottom));
-
-      left: 0;
-
-      width: 100%;
-
-      text-align: center;
-
-      font-size: clamp(0.6rem, 1vw, 0.75rem);
-
-      color: #766960;
-
-      letter-spacing: 1px;
-    }
-
-
-    /* =========================
-       HP LANDSCAPE
-       ========================= */
-
-    @media (orientation: landscape) and (max-height: 600px) {
-
-      .cover {
-        padding:
-          15px
-          8vw
-          30px;
-      }
-
-      .logo {
-        margin-bottom: 10px;
-      }
-
-      h1 {
-        font-size: clamp(2rem, 8vw, 4rem);
-
-        margin-bottom: 8px;
-      }
-
-      .description {
-        width: min(80%, 650px);
-
-        font-size: clamp(0.75rem, 2vw, 1rem);
-
-        line-height: 1.4;
-
-        margin-bottom: 12px;
-      }
-
-      .button {
-        padding: 8px 20px;
-      }
-
-      footer {
-        bottom: 8px;
-      }
-    }
-
-
-    /* =========================
-       TABLET
-       ========================= */
-
-    @media (min-width: 600px) {
-
-      .cover {
-        padding-left: 8vw;
-        padding-right: 8vw;
-      }
-    }
-
-
-    /* =========================
-       DESKTOP
-       ========================= */
-
-    @media (min-width: 1000px) {
-
-      .cover {
-        padding-left: 10vw;
-        padding-right: 10vw;
-      }
-
-      h1 {
-        font-size: clamp(4rem, 6vw, 6rem);
-      }
-
-      .description {
-        font-size: 1.15rem;
-      }
-
-      .button {
-        font-size: 1rem;
-      }
-    }
-
-
-    /* =========================
-       ANIMASI MASUK
-       ========================= */
-
-    .logo,
-    h1,
-    .description,
-    .button {
-      animation: muncul 0.8s ease both;
-    }
-
-    h1 {
-      animation-delay: 0.1s;
-    }
-
-    .description {
-      animation-delay: 0.2s;
-    }
-
-    .button {
-      animation-delay: 0.3s;
-    }
-
-    @keyframes muncul {
-
-      from {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-    }
-
-  </style>
+    .brand { margin-bottom: 1.25rem; }
+    .nav-list { margin-bottom: 1.25rem; }
+    .nav-list ul { flex-direction: row; flex-wrap: wrap; gap: .5rem 1.25rem; }
+    .sidebar-bottom { border-top: none; margin-top: 0; padding-top: 0; }
+  }
+  @media (max-width: 560px) {
+    .hero { padding: 3rem 0 2rem; }
+    .section { padding-top: 3rem; }
+    .btn { width: 100%; justify-content: center; }
+    .hero-actions { flex-direction: column; }
+  }
+</style>
 </head>
-
-
 <body>
+<a href="#top" class="skip-link">Skip to content</a>
+<div class="layout">
 
-  <main class="cover">
-
-    <div class="logo">
-      Free Borneo
+  <aside class="sidebar">
+    <div class="brand">
+      <svg class="moon-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <mask id="moonMaskBrand"><rect width="32" height="32" fill="#fff"/><circle cx="21" cy="10" r="9" fill="#000"/></mask>
+        <circle cx="15" cy="16" r="11" fill="currentColor" mask="url(#moonMaskBrand)"/>
+      </svg>
+      <div>
+        <p class="brand-name">Jordan Lee</p>
+        <p class="brand-tag">Software engineer</p>
+      </div>
     </div>
 
+    <nav class="nav-list" aria-label="Primary">
+      <ul>
+        <li><a href="#top">Home</a></li>
+        <li><a href="#writing">Writing</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
 
-    <h1>
-      Catatan & Tulisan
-    </h1>
+    <div class="sidebar-bottom">
+      <div class="socials">
+        <a href="https://github.com/yourhandle" aria-label="GitHub" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="8 6 3 12 8 18"/><polyline points="16 6 21 12 16 18"/>
+          </svg>
+        </a>
+        <a href="mailto:you@example.com" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/>
+          </svg>
+        </a>
+        <a href="/feed.xml" aria-label="RSS feed">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <circle cx="5.5" cy="18.5" r="1.6" fill="currentColor" stroke="none"/>
+            <path d="M4 11a9 9 0 019 9"/><path d="M4 5a15 15 0 0115 15"/>
+          </svg>
+        </a>
+      </div>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle color theme" aria-pressed="false">
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <mask id="moonMaskToggle"><rect width="24" height="24" fill="#fff"/><circle cx="16" cy="7" r="6.5" fill="#000"/></mask>
+          <circle cx="11" cy="12" r="8" fill="currentColor" mask="url(#moonMaskToggle)"/>
+        </svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none"/>
+          <line x1="12" y1="1.5" x2="12" y2="4.5"/><line x1="12" y1="19.5" x2="12" y2="22.5"/>
+          <line x1="1.5" y1="12" x2="4.5" y2="12"/><line x1="19.5" y1="12" x2="22.5" y2="12"/>
+          <line x1="4.4" y1="4.4" x2="6.5" y2="6.5"/><line x1="17.5" y1="17.5" x2="19.6" y2="19.6"/>
+          <line x1="4.4" y1="19.6" x2="6.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="19.6" y2="4.4"/>
+        </svg>
+      </button>
+    </div>
+  </aside>
 
+  <main>
+    <div class="content-inner" id="top">
 
-    <p class="description">
-      Sebuah ruang untuk menyimpan pemikiran,
-      tulisan, catatan, dan berbagai artikel.
-    </p>
+      <section class="hero">
+        <p class="eyebrow">Hello, I'm</p>
+        <h1>Jordan Lee<span class="accent-dot">.</span></h1>
+        <p class="hero-sub">I build backend systems and write about the small decisions that make software easier to change. Lately: distributed systems, terminal tools, and a few too many side projects.</p>
+        <div class="hero-actions">
+          <a href="#writing" class="btn btn-primary">Read the blog →</a>
+          <a href="#projects" class="btn btn-ghost">See my work</a>
+        </div>
+      </section>
 
+      <section id="writing" class="section">
+        <div class="section-head">
+          <p class="eyebrow">Writing</p>
+          <h2>Recent posts</h2>
+        </div>
 
-    <a href="/articles/radd/" class="button">
-      Baca Artikel
-    </a>
+        <article class="post-item">
+          <p class="post-meta"><time>Aug 14, 2026</time><span class="tag">systems</span></p>
+          <h3><a href="#">Why I stopped over-engineering my side projects</a></h3>
+          <p>Three years of shipping over-abstracted personal tools taught me that the best architecture is the one you actually finish.</p>
+          <a class="read-more" href="#">Read more →</a>
+        </article>
 
+        <article class="post-item">
+          <p class="post-meta"><time>Jul 02, 2026</time><span class="tag">debugging</span></p>
+          <h3><a href="#">Notes from a 2am memory leak</a></h3>
+          <p>A step-by-step account of chasing a leak through three services, two red herrings, and one very tired commit message.</p>
+          <a class="read-more" href="#">Read more →</a>
+        </article>
 
-    <footer>
-      © 2026
-    </footer>
+        <article class="post-item">
+          <p class="post-meta"><time>May 21, 2026</time><span class="tag">jekyll</span></p>
+          <h3><a href="#">A minimal Jekyll setup for GitHub Pages</a></h3>
+          <p>Stripping a blog down to one layout, one stylesheet, and just enough front matter to stay out of your own way.</p>
+          <a class="read-more" href="#">Read more →</a>
+        </article>
+      </section>
 
+      <section id="projects" class="section">
+        <div class="section-head">
+          <p class="eyebrow">Projects</p>
+          <h2>Selected work</h2>
+        </div>
+        <div class="project-grid">
+          <article class="project">
+            <h3>Driftwood</h3>
+            <p>A self-hosted RSS reader with keyboard-first navigation and a reading queue that actually gets read.</p>
+            <div class="tag-row"><span class="tag">Go</span><span class="tag">SQLite</span></div>
+            <div class="project-links"><a href="#">Code</a><a href="#">Live</a></div>
+          </article>
+          <article class="project">
+            <h3>Nightlog</h3>
+            <p>A terminal habit tracker for people who live in the terminal anyway.</p>
+            <div class="tag-row"><span class="tag">Rust</span></div>
+            <div class="project-links"><a href="#">Code</a></div>
+          </article>
+          <article class="project">
+            <h3>Pochette</h3>
+            <p>A tiny CLI that turns a folder of markdown notes into a searchable local index.</p>
+            <div class="tag-row"><span class="tag">Python</span></div>
+            <div class="project-links"><a href="#">Code</a></div>
+          </article>
+          <article class="project">
+            <h3>This site</h3>
+            <p>A hand-built homepage borrowing the calm of Moonwalk and the structure of Chirpy, without the Jekyll build step.</p>
+            <div class="tag-row"><span class="tag">HTML</span><span class="tag">CSS</span></div>
+            <div class="project-links"><a href="#">Code</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="about" class="section about">
+        <div class="section-head">
+          <p class="eyebrow">About</p>
+          <h2>A little more</h2>
+        </div>
+        <p>I'm a software engineer who cares more about maintainable systems than clever ones. Outside of work I'm usually reading sci-fi, tinkering with a mechanical keyboard, or rewriting this website for the fourth time this year.</p>
+      </section>
+
+    </div>
   </main>
+</div>
 
+<footer class="site-footer">
+  <div class="footer-socials">
+    <a href="https://github.com/yourhandle" aria-label="GitHub" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="8 6 3 12 8 18"/><polyline points="16 6 21 12 16 18"/>
+      </svg>
+    </a>
+    <a href="mailto:you@example.com" aria-label="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 7l8 6 8-6"/>
+      </svg>
+    </a>
+    <a href="/feed.xml" aria-label="RSS feed">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <circle cx="5.5" cy="18.5" r="1.6" fill="currentColor" stroke="none"/>
+        <path d="M4 11a9 9 0 019 9"/><path d="M4 5a15 15 0 0115 15"/>
+      </svg>
+    </a>
+  </div>
+  <p class="footer-note">Built by hand — layout inspired by <a href="https://github.com/abhinavs/moonwalk" target="_blank" rel="noopener">Moonwalk</a> and <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a>.</p>
+  <p class="footer-copy">© 2026 Jordan Lee</p>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var toggle = document.getElementById('themeToggle');
+    function syncToggle() {
+      toggle.setAttribute('aria-pressed', root.getAttribute('data-theme') === 'light' ? 'true' : 'false');
+    }
+    syncToggle();
+    toggle.addEventListener('click', function () {
+      root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+      syncToggle();
+    });
+  })();
+</script>
 </body>
-
 </html>
