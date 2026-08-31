@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Topics
-permalink: /notes/
+permalink: /topics/
 wide: true
 ---
 
