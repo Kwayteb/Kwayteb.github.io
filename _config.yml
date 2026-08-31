@@ -1,0 +1,13 @@
+title: "Common Ground"
+description: "A community reading and writing about Sharia law and formal state law, side by side."
+
+# If this repo is NOT yourusername.github.io, set baseurl to "/your-repo-name"
+url: ""
+baseurl: ""
+
+markdown: kramdown
+
+# Both of these are on GitHub Pages' safe list, so no custom build step is needed.
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
