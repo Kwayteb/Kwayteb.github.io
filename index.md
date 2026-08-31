@@ -9,7 +9,7 @@ wide: true
 
 A place to read and discuss writing on Sharia law and formal state law — side by side, in plain language.
 
-## Browse by topic
+## READ NIGGA!
 
 <div class="topic-grid">
   <a class="topic-card" href="{{ '/topics/' | relative_url }}#sharia-law">
