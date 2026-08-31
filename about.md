@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-permalink: /links/
+permalink: /about/
 ---
 
 # About this community
