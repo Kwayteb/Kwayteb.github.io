@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Community Guidelines
-permalink: /siapakami/
+permalink: /guidelines/
 ---
 
 # Community guidelines
