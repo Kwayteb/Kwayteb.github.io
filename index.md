@@ -5,7 +5,7 @@ permalink: /
 wide: true
 ---
 
-# Common Ground
+# Sungut Lele Comunity
 
 A place to read and discuss writing on Sharia law and formal state law — side by side, in plain language.
 
