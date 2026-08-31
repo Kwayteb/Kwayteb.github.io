@@ -1,0 +1,22 @@
+---
+layout: default
+---
+<article class="container article">
+  <header class="article-header">
+    {% if page.categories contains "sharia-law" %}
+      <a class="pill" href="{{ '/topics/' | relative_url }}#sharia-law">Sharia Law</a>
+    {% elsif page.categories contains "state-law" %}
+      <a class="pill" href="{{ '/topics/' | relative_url }}#state-law">Formal State Law</a>
+    {% endif %}
+    <h1>{{ page.title }}</h1>
+    <p class="article-meta"><time>{{ page.date | date: "%B %-d, %Y" }}</time></p>
+  </header>
+
+  <div class="article-body">
+    {{ content }}
+  </div>
+
+  <footer class="article-footer">
+    <a href="{{ '/topics/' | relative_url }}">← Back to all topics</a>
+  </footer>
+</article>
